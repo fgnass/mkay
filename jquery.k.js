@@ -10,7 +10,7 @@ var re = {
 };
 
 $.K = function(s) {
-  var tag = (re.tag.exec(s)||[,'div'])[1];
+  var tag = (re.tag.exec(s||'')||[,'div'])[1];
   var el = document.createElement(tag);
   var id = re.id.exec(s);
   var cls = re.cls.exec(s);
