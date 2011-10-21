@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
+<script src="jquery.k.js"></script>
+<script>
+$(document).ready(function() {
+
+test("$.K('#foo.bar.baz')", function() {
+  var el = $.K('#foo.bar.baz');
+  equal(el.length, 1, "Chain must contain 1 element");
+  el = el.get(0);
+  equal(el.tagName, 'DIV', 'Tag must be a `DIV`');
+  equal(el.id, 'foo', 'Id must be `foo`');
+  equal(el.className, 'bar baz', 'class must be `bar baz`');
+});
+
+test("$.K('h1.bar.baz#foo')", function() {
+  var el = $.K('h1.bar.baz#foo').get(0);
+  equal(el.tagName, 'H1', 'Tag must be a `H1`');
+  equal(el.id, 'foo', 'Id must be `foo`');
+  equal(el.className, 'bar baz', 'class must be `bar baz`');
+});
+
+test("$.K(null, 'foo')", function() {
+  var el = $.K(null, 'foo');
+  ok(el && el.length, 'Must return a jQuery object');
+  equal(el.length, 1, "Chain must contain 1 element");
+  el = el.get(0);
+  equal(el.tagName, 'DIV', 'Tag must be a `DIV`');
+  equal(el.innerHTML, 'foo', 'Text must be `foo`');
+});
+
+test("$.K('b', 'a', $.K('i', 'b'), 'c')", function() {
+  var el = $.K('b', 'a', $.K('i', 'b'), 'c');
+  equal(el.html(), 'a<i>b</i>c', 'Inner HTML must match');
+});
+
+test(".K('b', 'bar')", function() {
+  $('#foo').K('b', 'bar');
+  equal($('#foo').html(), '<b>bar</b>', 'Inner HTML must match');
+});
+
+});
+</script>
+</head>
+<body>
+ <h1 id="qunit-header">jaykay</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
+ <ol id="qunit-tests"></ol>
+ <div id="qunit-fixture">
+   <div id="foo"></div>
+ </div>
+</body>
+</html>
