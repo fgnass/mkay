@@ -1,6 +1,6 @@
 # M'kay
 
-Lightweight [Jade](http://jade-lang.com)/[HAML](http://haml-lang.com)-like DOM builder for jQuery and zepto.js
+Lightweight [Jade](http://jade-lang.com)/[HAML](http://haml-lang.com)-like DOM builder for jQuery and Zepto.js
 
 ## Why?
 
@@ -17,10 +17,11 @@ $('body').mk('#foo.bar', 'Hello')
 ```
 
 But there's even more! With m'kay you can ...
+
 * write logic in JS rather than some awkward templating language
 * save node references upon creation instead of querying the DOM later
 * validate your code with JSHint & Co.
-* relax -- no innerHTML == no XSS
+* relax – no innerHTML == no XSS
 
 ## Usage
 
