@@ -14,9 +14,9 @@ With m'kay this boils down to:
 
 ## Usage
 
-`jQuery.mk(expression [, child, ...])`
+`$.mk(expression [, child, ...])`
 
-Returns a jQuery chain with a new element created from an expression.
+Returns a jQuery/Zepto chain with a new element created from an expression.
 
 Additional arguments will be appended to the newly created element.
 If a string is passed as child it will be converted into a TextNode.
