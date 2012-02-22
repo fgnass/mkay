@@ -6,11 +6,21 @@ Lightweight [Jade](http://jade-lang.com)/[HAML](http://haml-lang.com)-like DOM b
 
 Because building DOM fragments with plain jQuery is [slow](http://jsperf.com/innerhtml-or-dom/4) and noisy:
 
-    $('<div id="foo" class="bar">').text('Hello').appendTo('body')
+```javascript
+$('<div id="foo" class="bar">').text('Hello').appendTo('body')
+```
 
 With m'kay this boils down to:
 
-    $('body').mk('#foo.bar', 'Hello')
+```javascript
+$('body').mk('#foo.bar', 'Hello')
+```
+
+But there's even more! With m'kay you can ...
+* write logic in JS rather than some awkward templating language
+* save node references upon creation instead of querying the DOM later
+* validate your code with JSHint & Co.
+* relax -- no innerHTML == no XSS
 
 ## Usage
 
@@ -30,7 +40,9 @@ Appends and returns the newly created element. This allows you to set
 attributes or CSS properties of the new element with jQuery's built-in
 methods:
 
-    $('body').mk('#foo').css('font-size', 'x-large');
+```javascript
+$('body').mk('#foo').css('font-size', 'x-large');
+```
 
 ## Going up again
 
