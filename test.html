@@ -51,6 +51,11 @@ test(".mk('b', 'bar')", function() {
   equal($('#foo').html(), '<b>bar</b>', 'Inner HTML must match');
 });
 
+test(".mk('a', ['a', $.mk('b', 'b')])", function() {
+  $('#bar').mk('a', ['a', $.mk('b', 'b')]);
+  equal($('#bar').html(), '<a>a<b>b</b></a>', 'Inner HTML must match');
+});
+
 test("_", function() {
   var el = $.mk('div')
     .mk('ul')
@@ -74,6 +79,7 @@ test("_", function() {
  <ol id="qunit-tests"></ol>
  <div id="qunit-fixture">
    <div id="foo"></div>
+   <div id="bar"></div>
  </div>
 </body>
 </html>

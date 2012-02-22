@@ -1,8 +1,9 @@
+//github.com/fgnass/mkay
+(function(document, $) {
+
 /**
  * Lightweight Jade/HAML-like DOM builder for jQuery or zepto.js.
  */
-(function($) {
-
 var re = {
   tag: /^(\w+)/,
   id: /#(\w+)/,
@@ -13,7 +14,7 @@ $.mk = function(s) {
   var tag = (re.tag.exec(s||'')||[,'div'])[1];
   var el = document.createElement(tag);
   var chain = $(el);
-
+  var a = chain.append;
   var id = re.id.exec(s);
   var cls = re.cls.exec(s);
 
@@ -21,9 +22,9 @@ $.mk = function(s) {
   if (cls) (el.className = cls[1].replace('.', ' '));
 
   for (var i=1; i < arguments.length; i++) {
-    var child = arguments[i];
-    if (typeof child == 'string') child = document.createTextNode(child);
-    chain.append(child);
+    var n = arguments[i];
+    if (typeof n == 'string') n = document.createTextNode(n);
+    $.isArray(n) ? a.apply(chain, n) : a.call(chain, n);
   }
 
   return chain;
@@ -35,4 +36,4 @@ $.fn.mk = function(s) {
   return child;
 };
 
-})(jQuery);
+})(document, this.jQuery || this.Zepto);
