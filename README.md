@@ -36,24 +36,31 @@ methods:
 
 You can access the parent chain using the `_` property. This allows you to create deeply nested tree structures with one single expression:
 
-    $('body')
-      .mk('ul#foo')
-        .mk('li', 'Hello')._
-        .mk('li', 'World')._
-    ._.mk('ol#bar')
-        .mk('li.even', 'One')._
-        .mk('li.odd', 'Two');
+```javascript
+$('body')
+  .mk('ul#foo')
+    .mk('li', 'Hello')._
+    .mk('li', 'World')._
+._.mk('ol#bar')
+    .mk('li.even', 'One')._
+    .mk('li.odd', 'Two');
+```
 
 The resulting HTML will look like this:
 
-        <body>
-          <ul id="foo">
-            <li>Hello</li>
-            <li>World</li>
-          </ul>
-          <ol id="bar">
-            <li class="even">One</li>
-            <li class="odd">Two</li>
-          </ol>
-        </body>
+```html
+<body>
+  <ul id="foo">
+    <li>Hello</li>
+    <li>World</li>
+  </ul>
+  <ol id="bar">
+    <li class="even">One</li>
+    <li class="odd">Two</li>
+  </ol>
+</body>
+```
 
+## License
+
+M'kay is is licensed under the terms of the MIT License, see the included LICENSE.txt file.
