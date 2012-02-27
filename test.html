@@ -8,7 +8,7 @@
 <script>
 $(document).ready(function() {
 
-test("$.mk('#foo.bar.baz')", function() {
+test("id and multiple classes", function() {
   var el = $.mk('#foo.bar.baz');
   equal(el.length, 1, "Chain must contain 1 element");
   el = el.get(0);
@@ -17,14 +17,21 @@ test("$.mk('#foo.bar.baz')", function() {
   equal(el.className, 'bar baz', 'class must be `bar baz`');
 });
 
-test("$.mk('h1.bar.baz#foo')", function() {
+test("id and classes with dashes", function() {
+  var el = $.mk('#foo-bar.foo-bar.foo-baz');
+  equal(el[0].id, 'foo-bar', 'Is must be foo-bar');
+  ok(el.hasClass('foo-bar'), 'DIV must have class foo-bar');
+  ok(el.hasClass('foo-baz'), 'DIV must have class foo-baz');
+});
+
+test("H1 with id and multiple classes", function() {
   var el = $.mk('h1.bar.baz#foo').get(0);
   equal(el.tagName, 'H1', 'Tag must be a `H1`');
   equal(el.id, 'foo', 'Id must be `foo`');
   equal(el.className, 'bar baz', 'class must be `bar baz`');
 });
 
-test("$.mk()", function() {
+test("No arguments", function() {
   var el = $.mk();
   ok(el && el.length, 'Must return a jQuery object');
   equal(el.length, 1, "Chain must contain 1 element");
@@ -32,7 +39,7 @@ test("$.mk()", function() {
   equal(el.tagName, 'DIV', 'Tag must be a `DIV`');
 });
 
-test("$.mk(null, 'foo')", function() {
+test("Null selector and text child", function() {
   var el = $.mk(null, 'foo');
   ok(el && el.length, 'Must return a jQuery object');
   equal(el.length, 1, "Chain must contain 1 element");
@@ -41,17 +48,17 @@ test("$.mk(null, 'foo')", function() {
   equal(el.innerHTML, 'foo', 'Text must be `foo`');
 });
 
-test("$.mk('b', 'a', $.mk('i', 'b'), 'c')", function() {
+test("Nested calls", function() {
   var el = $.mk('b', 'a', $.mk('i', 'b'), 'c');
   equal(el.html(), 'a<i>b</i>c', 'Inner HTML must match');
 });
 
-test(".mk('b', 'bar')", function() {
+test(".mk(...)", function() {
   $('#foo').mk('b', 'bar');
   equal($('#foo').html(), '<b>bar</b>', 'Inner HTML must match');
 });
 
-test(".mk('a', ['a', $.mk('b', 'b')])", function() {
+test("Child nodes as array", function() {
   $('#bar').mk('a', ['a', $.mk('b', 'b')]);
   equal($('#bar').html(), '<a>a<b>b</b></a>', 'Inner HTML must match');
 });
@@ -67,6 +74,13 @@ test("_", function() {
   ._;
   equal(el.html(), '<ul><li>Hello</li><li>World</li></ul><ol><li>One</li><li>Two</li></ol>', 'Inner HTML must match');
 });
+
+test('attr', function() {
+  var el = $.mk('input.text[type=checkbox][name=foo]')[0];
+  equal(el.className, 'text', 'clas must be text');
+  equal(el.type, 'checkbox', 'type must be set to checkbox');
+  equal(el.name, 'foo', 'name must be set to foo');
+})
 
 });
 </script>

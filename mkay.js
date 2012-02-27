@@ -6,8 +6,9 @@
  */
 var re = {
   tag: /^(\w+)/,
-  id: /#(\w+)/,
-  cls: /\.([^#]+)/
+  id: /#([\w_\-]+)/,
+  cls: /\.([^#\[]+)/,
+  attr: /\[(.+?)=(.+?)\]/g
 };
 
 $.mk = function(s) {
@@ -20,6 +21,11 @@ $.mk = function(s) {
 
   if (id) (el.id = id[1]);
   if (cls) (el.className = cls[1].replace('.', ' '));
+
+  var m;
+  while ((m = re.attr.exec(s))) {
+    el.setAttribute(m[1], m[2]);
+  }
 
   for (var i=1; i < arguments.length; i++) {
     var n = arguments[i];
