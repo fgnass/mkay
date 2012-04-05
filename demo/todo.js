@@ -111,19 +111,20 @@ function redrawTasksUI() {
 function redrawStatsUI() {
   todoStats.empty();
   if (stat.total) {
-    todoStats.mk("span.todo-count")
-      .mk("span.number", stat.left)._
-      .mk("span.word", ' ', stat.left == 1 ? 'item' : 'items')._
-      .mk("span", " left.");
+    todoStats.mk("span.todo-count",
+      ["span.number", stat.left],
+      ["span.word", ' ', stat.left == 1 ? 'item' : 'items'],
+      ["span", " left."]
+    );
   }
 
   if (stat.completed) {
     todoStats.mk("span.todo-clear")
      .mk("a[href=#]",
         "Clear ",
-        $.mk("span.number-done", stat.completed),
+        ["span.number-done", stat.completed],
         " completed ",
-        $.mk("span.word-done", stat.completed == 1 ? "item" : "items")
+        ["span.word-done", stat.completed == 1 ? "item" : "items"]
       )
       .on("click", function() {
         clearCompleted();
@@ -132,19 +133,19 @@ function redrawStatsUI() {
   }
 }
 
-
-$('body').mk("#todoapp")
-  .mk(".title", $.mk("h1", "Todos"))._
-  .mk(".content",
-    $.mk("#create-todo",
+$('body').mk("#todoapp",
+  [".title", ["h1", "Todos"]],
+  [".content",
+    ["#create-todo",
       newTodo = $.mk("input[placeholder=What needs to be done?]").on("keypress", function(ev) {
         if (ev.keyCode === 13) addTask(this.value);
       }),
       $.mk("span.ui-tooltip-top", "Press Enter to save this task").hide()
-    ),
-    $.mk("#todos", todoList = $.mk('ul#todo-list')),
-    todoStats = $.mk('#todo-stats')
-  );
+    ]
+  ],
+  ["#todos", todoList = $.mk('ul#todo-list')],
+  todoStats = $.mk('#todo-stats')
+);
 
 loadTasks();
 refreshData();
