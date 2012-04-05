@@ -59,7 +59,7 @@ test(".mk(...)", function() {
 });
 
 test("Child nodes as array", function() {
-  $('#bar').mk('a', ['a', $.mk('b', 'b')]);
+  $('#bar').mk('a', 'a', ['b', 'b']);
   equal($('#bar').html(), '<a>a<b>b</b></a>', 'Inner HTML must match');
 });
 
@@ -80,6 +80,29 @@ test('attr', function() {
   equal(el.className, 'text', 'clas must be text');
   equal(el.type, 'checkbox', 'type must be set to checkbox');
   equal(el.name, 'foo', 'name must be set to foo');
+})
+
+test("JsonML", function() {
+  var el = $.mk(
+    ['a', {href: '#'},
+      'a',
+      ['b',
+        'b',
+        ['i','i']
+      ],
+      'c'
+    ])
+    , div = $.mk('', el)
+
+  equal(div.html(), '<a href="#">a<b>b<i>i</i></b>c</a>', 'Inner HTML must match')
+});
+
+test('Multiple elements', function() {
+  var el = $.mk(['a'], ['b']);
+  ok(el && el.length, 'Must return a jQuery object');
+  equal(el.length, 2, "Chain must contain 2 elements");
+  equal(el.get(0).tagName, 'A', 'First element must be `A`');
+  equal(el[1].tagName, 'B', 'Second element must be `B`');
 })
 
 });

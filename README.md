@@ -10,69 +10,81 @@ Because building DOM fragments with plain jQuery is [slow](http://jsperf.com/inn
 $('<div id="foo" class="bar">').text('Hello').appendTo('body')
 ```
 
-With m'kay this boils down to:
+With M'kay this boils down to:
 
 ```javascript
 $('body').mk('#foo.bar', 'Hello')
 ```
 
-But there's even more! With m'kay you can ...
+But there's even more! With M'kay you can ...
 
 * write logic in JS rather than some awkward templating language
 * save node references upon creation instead of querying the DOM later
 * validate your code with JSHint & Co.
 * relax – no innerHTML == no XSS
 
-## Usage
+## Usage Examples
 
-`$.mk(expression [, child, ...])`
+    $.mk()                              <div></div>
+    $.mk('h1')                          <h1></h1>
+    $.mk('.foo')                        <div class="foo"></div>
 
-Returns a jQuery/Zepto chain with a new element created from an expression.
+    $.mk('h1#title')                    <h1 id="title"></h1>
+    $.mk('h1#title.big')                <h1 id="title" class="big"></h1>
+    $.mk('input[type=text][name=foo]')  <input type="text" name="foo">
 
-Additional arguments will be appended to the newly created element.
-If a string is passed as child it will be converted into a TextNode.
-All other types are directly passed to jQuery's
-[.append()](http://api.jquery.com/append/) method, hence DOM nodes,
-jQuery objects and functions are supported.
+As you see, you can specify the tag-name, class, id as well as attributes in a
+familiar, CSS-like syntax.
 
-`.mk(expression [, child, ...])`
+### Nested Elements
 
-Appends and returns the newly created element. This allows you to set
-attributes or CSS properties of the new element with jQuery's built-in
-methods:
+To append a text-node to new element, just pass it as additional argument:
 
-```javascript
-$('body').mk('#foo').css('font-size', 'x-large');
-```
+    $.mk('h1', 'Hello World')           <h1>Hello World</h1>
 
-## Going up again
+In order to append elements you can use nested calls to `$.mk()`:
 
-You can access the parent chain using the `_` property. This allows you to create deeply nested tree structures with one single expression:
+    $.mk('ul',                          <ul>
+      $.mk('li', 'One'),                  <li>One</li>
+      $.mk('li', 'Two')                   <li>Two</li>
+    )                                   </ul>
 
-```javascript
-$('body')
-  .mk('ul#foo')
-    .mk('li', 'Hello')._
-    .mk('li', 'World')._
-._.mk('ol#bar')
-    .mk('li.even', 'One')._
-    .mk('li.odd', 'Two');
-```
+### JsonML
 
-The resulting HTML will look like this:
+For brevity you may also use [JsonML](http://jsonml.org):
 
-```html
-<body>
-  <ul id="foo">
-    <li>Hello</li>
-    <li>World</li>
-  </ul>
-  <ol id="bar">
-    <li class="even">One</li>
-    <li class="odd">Two</li>
-  </ol>
-</body>
-```
+    $.mk('ul',                          <ul>
+      ['li', 'One'],                      <li>One</li>
+      ['li', 'Two']                       <li>Two</li>
+    )                                   </ul>
+
+Since M'kay fully supports the JsonML syntax, you can also set attributes by
+passing an object as second parameter:
+
+    $.mk('a', {href: 'http://github.com'}, 'GitHub')
+
+
+### Multiple Elements
+
+In order to create a chain containing multiple elements the first element
+must be an array:
+
+    $.mk(['span'], ['span'])             <span></span><span></span>
+    $.mk(['em', 'Hello'], ' world')      <em>Hello</em> world
+
+### Create & Append
+
+A common task is to append a newly created element to an existing one. M'kay
+therefore provides a plugin method that does just that:
+
+    $('body').mk('h1', 'Hello!')
+
+The `.mk()` plugin returns a chain containing the newly created element. This
+allows you to easily add event listeners like this:
+
+    $('body').mk('.btn', 'Click Me')
+      .click(function() { alert('click') })
+
 
 ## License
 
