@@ -14,6 +14,10 @@ var re = {
   dots: /\./g
 }
 
+function isPlainObject(o) {
+  return o && o.constructor == Object
+}
+
 function mk(jsonml) {
   if (!$.isArray(jsonml)) return document.createTextNode(jsonml)
   var s = jsonml[0]
@@ -33,7 +37,7 @@ function mk(jsonml) {
     el.setAttribute(m[1], m[2])
 
   // If the 2nd argument is omitted splice an empty object
-  if (!$.isPlainObject(attrs))
+  if (!isPlainObject(attrs))
     jsonml.splice(1, 0, attrs = {})
 
   // Set attributes passed as 2nd arg
