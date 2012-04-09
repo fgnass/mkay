@@ -15,7 +15,10 @@ var re = {
 }
 
 function isPlainObject(o) {
-  return o && o.constructor == Object
+  if (!o || o.constructor != Object) return false
+  var key
+  for (key in o);
+  return key === undefined || o.hasOwnProperty(key)
 }
 
 function mk(jsonml) {
