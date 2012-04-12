@@ -44,7 +44,11 @@ function mk(jsonml) {
     jsonml.splice(1, 0, attrs = {})
 
   // Set attributes passed as 2nd arg
-  chain.attr(attrs)
+  $.each(attrs, function(name, val) {
+    m = re.event.exec(name)
+    if (m) chain.on(m[1], val)
+    else chain.attr(name, val)
+  })
 
   for (var i=2; i < jsonml.length; i++) {
     var n = jsonml[i]
