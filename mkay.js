@@ -47,6 +47,7 @@ function mk(jsonml) {
   $.each(attrs, function(name, val) {
     m = re.event.exec(name)
     if (m) chain.on(m[1], val)
+    else if (name == 'class') chain.addClass(val)
     else chain.attr(name, val)
   })
 

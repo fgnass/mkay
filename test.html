@@ -77,9 +77,14 @@ test("_", function() {
 
 test('attr', function() {
   var el = $.mk('input.text[type=checkbox][name=foo]')[0];
-  equal(el.className, 'text', 'clas must be text');
+  equal(el.className, 'text', 'class must be text');
   equal(el.type, 'checkbox', 'type must be set to checkbox');
   equal(el.name, 'foo', 'name must be set to foo');
+})
+
+test('double class', function() {
+  var el = $.mk('.foo', {'class': 'bar'})[0];
+  equal(el.className, 'foo bar', 'class must match');
 })
 
 test("JsonML", function() {
